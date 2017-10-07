@@ -67,7 +67,7 @@ public class Serenity {
                 });
 
                 PostGameShutdown postShutdownEvent = EventManager.post(new PostGameShutdown());
-                EventManager.getListeners().clear();
+                EventManager.clear();
                 postShutdownEvent.getTasks().forEach(Runnable::run);
             }
         });
