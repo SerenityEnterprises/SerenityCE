@@ -1,0 +1,74 @@
+package host.serenity.serenity.plugins.altmanager.altdispenser;
+
+import host.serenity.serenity.util.iface.MinecraftExtension;
+import net.altdispenser.altygame.AltyGame;
+import net.altdispenser.altygame.AltyGameBuilder;
+import net.minecraft.client.gui.GuiButton;
+import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.resources.I18n;
+import net.minecraft.util.Session;
+import org.lwjgl.input.Keyboard;
+
+import java.io.IOException;
+import java.util.concurrent.TimeUnit;
+
+public class GuiAltyListener extends GuiScreen {
+    private final GuiScreen parent;
+    private static AltyGame altyGame = null;
+
+
+    public GuiAltyListener(GuiScreen parent) {
+        this.parent = parent;
+        if (altyGame != null) {
+            altyGame.stopListening();
+            altyGame = null;
+        }
+
+        altyGame = new AltyGameBuilder().check(2, TimeUnit.SECONDS).listener(alt -> {
+            Session session = new Session(alt.getUsername(), alt.getUUID().replace("-", ""), alt.getAccessToken(), "mojang");
+
+            ((MinecraftExtension) mc).setSession(session);
+
+            altyGame.stopListening();
+            altyGame = null;
+            mc.displayGuiScreen(parent);
+        }).build();
+
+        AltyGame.start(altyGame);
+    }
+
+    @Override
+    public void initGui() {
+        this.buttonList.clear();
+        this.buttonList.add(new GuiButton(0, this.width / 2 - 100, this.height / 4 + 120 + 12, I18n.format("gui.cancel", new Object[0])));
+    }
+
+    @Override
+    protected void actionPerformed(GuiButton button) throws IOException {
+        if (button.id == 0) {
+            altyGame.stopListening();
+            altyGame = null;
+            mc.displayGuiScreen(parent);
+        }
+    }
+
+    @Override
+    public void drawScreen(int mouseX, int mouseY, float partialTicks) {
+        drawDefaultBackground();
+
+        drawCenteredString(mc.fontRendererObj, "Waiting for Alty...", this.width / 2, this.height / 2 - 50, 0xFFFFFF);
+
+        super.drawScreen(mouseX, mouseY, partialTicks);
+    }
+
+    @Override
+    protected void keyTyped(char typedChar, int keyCode) throws IOException {
+        if (keyCode == Keyboard.KEY_ESCAPE) {
+            altyGame.stopListening();
+            altyGame = null;
+            mc.displayGuiScreen(parent);
+            return;
+        }
+        super.keyTyped(typedChar, keyCode);
+    }
+}

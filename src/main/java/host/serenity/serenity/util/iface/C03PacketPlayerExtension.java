@@ -1,0 +1,12 @@
+package host.serenity.serenity.util.iface;
+
+public interface C03PacketPlayerExtension {
+    void setOnGround(boolean onGround);
+
+    void setX(double x);
+    void setY(double y);
+    void setZ(double z);
+
+    void setYaw(float yaw);
+    void setPitch(float pitch);
+}

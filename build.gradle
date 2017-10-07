@@ -1,0 +1,97 @@
+apply plugin: "kotlin"
+
+apply plugin: "net.minecraftforge.gradle.tweaker-client"
+apply plugin: "org.spongepowered.mixin"
+
+buildscript {
+    ext.kotlin_version = '1.1.2'
+
+    repositories {
+        mavenCentral()
+        maven {
+            name = "sonatype"
+            url = "https://oss.sonatype.org/content/repositories/snapshots/"
+        }
+        maven {
+            name = "forge"
+            url = "http://files.minecraftforge.net/maven"
+        }
+        maven {
+            name = "sponge"
+            url = "http://repo.spongepowered.org/maven"
+        }
+    }
+    dependencies {
+        classpath "net.minecraftforge.gradle:ForgeGradle:2.0-SNAPSHOT"
+        classpath "org.spongepowered:mixingradle:0.4-SNAPSHOT"
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+    }
+}
+
+repositories {
+    mavenCentral()
+    maven {
+        name = "sponge"
+        url = "http://repo.spongepowered.org/maven"
+    }
+    maven {
+        url 'https://jitpack.io'
+    }
+}
+
+group "host.serenity.serenity"
+version "0.1-SNAPSHOT"
+
+sourceCompatibility = targetCompatibility = "1.8"
+compileJava {
+    sourceCompatibility = targetCompatibility = "1.8"
+}
+
+minecraft {
+    version = "1.8"
+    mappings = "snapshot_20151128"
+    runDir = "run"
+
+    tweakClass = "host.serenity.serenity.launch.SerenityTweaker"
+
+    makeObfSourceJar = false
+}
+
+sourceSets {
+    main {
+        refMap = "mixins.serenity.refmap.json"
+    }
+}
+
+mixin {
+    defaultObfuscationEnv notch
+}
+
+configurations {
+    shade
+    compile.extendsFrom shade
+}
+
+dependencies {
+    shade('net.minecraft:launchwrapper:1.12') {
+        exclude module: 'lwjgl'
+        exclude group: 'org.apache.logging.log4j'
+    }
+
+    shade('org.spongepowered:mixin:0.7-SNAPSHOT') {
+        exclude module: 'launchwrapper'
+    }
+
+    shade "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    shade "com.github.jordinjm:deltoid:0.6.0"
+
+    // runtime files("run/OptiFine_1.8.0_HD_U_H6-dev.jar") // OptiFine in classpath
+}
+
+jar {
+    configurations.shade.each { dep ->
+        from(project.zipTree(dep)){
+            exclude 'META-INF', 'META-INF/**'
+        }
+    }
+}

@@ -1,0 +1,31 @@
+{
+  "package": "host.serenity.serenity.mixin.core",
+  "refmap": "mixins.serenity.refmap.json",
+  "compatibilityLevel": "JAVA_8",
+  "mixins": [
+    "MixinBlock",
+    "MixinBlockModelRenderer",
+    "MixinC03PacketPlayer",
+    "MixinEntity",
+    "MixinEntityLivingBase",
+    "MixinEntityPlayer",
+    "MixinEntityPlayerSP",
+    "MixinEntityRenderer",
+    "MixinGuiIngame",
+    "MixinGuiNewChat",
+    "MixinGuiPlayerTabOverlay",
+    "MixinGuiScreen",
+    "MixinItemRenderer",
+    "MixinKeyBinding",
+    "MixinMinecraft",
+    "MixinMovementInputFromOptions",
+    "MixinNetHandlerPlayClient",
+    "MixinNetworkManager",
+    "MixinPacketThreadUtilInnerRunnable",
+    "MixinPlayerControllerMP",
+    "MixinRenderChunk",
+    "MixinRendererLivingEntity",
+    "MixinS08PacketPlayerPosLook",
+    "MixinWorldRenderer"
+  ]
+}
