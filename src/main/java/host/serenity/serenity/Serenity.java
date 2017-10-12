@@ -20,7 +20,7 @@ import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumChatFormatting;
 
 public class Serenity {
-    public static final int BUILD_NUMBER = 1;
+    public static final int BUILD_NUMBER = 2;
 
     public static Serenity instance;
     public static Serenity getInstance() {
