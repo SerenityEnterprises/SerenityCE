@@ -26,13 +26,13 @@ buildscript {
 group "host.serenity.serenity"
 version "0.1-SNAPSHOT"
 
-sourceCompatibility = 1.8
-targetCompatibility = 1.8
-compileJava.options.encoding = 'UTF-8'
-
 apply plugin: "kotlin"
 apply plugin: "net.minecraftforge.gradle.tweaker-client"
 apply plugin: "org.spongepowered.mixin"
+
+sourceCompatibility = '1.8'
+targetCompatibility = '1.8'
+compileJava.options.encoding = 'UTF-8'
 
 minecraft {
     version = "1.8"
