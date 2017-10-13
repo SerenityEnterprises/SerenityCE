@@ -27,13 +27,13 @@ public class Serenity {
         return instance;
     }
 
-    private PredictionEngine predictionEngine;
-    private CommandManager commandManager;
-    private ModuleManager moduleManager;
-    private KeybindManager keybindManager;
-    private PluginManager pluginManager;
-    private FriendManager friendManager;
-    private FileManager fileManager;
+    private final PredictionEngine predictionEngine;
+    private final CommandManager commandManager;
+    private final ModuleManager moduleManager;
+    private final KeybindManager keybindManager;
+    private final PluginManager pluginManager;
+    private final FriendManager friendManager;
+    private final FileManager fileManager;
 
     public Serenity() {
         instance = this;
