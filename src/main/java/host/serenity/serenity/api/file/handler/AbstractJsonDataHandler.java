@@ -29,7 +29,7 @@ public abstract class AbstractJsonDataHandler<T> implements ClientDataHandler {
         if (!file.exists() && !file.createNewFile()) {
             return;
         }
-        
+
         BufferedWriter writer = new BufferedWriter(new FileWriter(file));
         writer.write(gson.toJson(getObjectToSave(), targetClass));
         writer.close();
