@@ -25,6 +25,10 @@ public class FriendsDataHandler implements ClientDataHandler {
 
     @Override
     public void load() throws IOException {
+        if (!file.exists()) {
+            return;
+        }
+
         String json = FileUtils.readFileToString(file);
         Map<String, String> friends = gson.fromJson(json, new TypeToken<Map<String, String>>() {}.getType());
 
