@@ -17,6 +17,10 @@ public class FileManager {
 
     private List<ClientDataHandler> dataHandlerList = new ArrayList<>();
 
+    public void createClientDirectory() {
+        CLIENT_DIRECTORY.mkdirs();
+    }
+
     public void loadAll() {
         dataHandlerList.forEach(dataHandler -> {
             try {

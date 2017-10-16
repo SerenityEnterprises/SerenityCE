@@ -49,6 +49,7 @@ public class SerenityBootstrapper implements Runnable {
         }
 
         Serenity.getInstance().getModuleManager().sortModules();
+        Serenity.getInstance().getFileManager().createClientDirectory();
 
         Serenity.getInstance().getFileManager().loadAll();
         Serenity.getInstance().getFileManager().saveAll(); // Save after loading so that all files are populated on client launch.
