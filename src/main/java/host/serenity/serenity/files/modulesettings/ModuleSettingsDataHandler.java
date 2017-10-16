@@ -10,7 +10,9 @@ import host.serenity.serenity.api.module.mode.ModuleMode;
 import host.serenity.serenity.api.value.Value;
 import org.apache.commons.io.FileUtils;
 
-import java.io.*;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -46,9 +48,7 @@ public class ModuleSettingsDataHandler implements ClientDataHandler {
             }
 
             File file = new File(settingsDirectory, module.getName().toLowerCase().replace(" ", "") + ".json");
-            BufferedWriter writer = new BufferedWriter(new FileWriter(file));
-            writer.write(gson.toJson(settingsContainer));
-            writer.close();
+            Files.write(file.toPath(), gson.toJson(settingsContainer).getBytes());
         }
     }
 
