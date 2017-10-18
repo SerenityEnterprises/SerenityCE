@@ -7,6 +7,7 @@ import host.serenity.synapse.Listener;
 import me.jordin.deltoid.region.CuboidRegion;
 import me.jordin.deltoid.vector.Vec3;
 import net.minecraft.block.BlockCarpet;
+import net.minecraft.client.multiplayer.ServerData;
 
 public class Volkswagen extends Module {
     public Volkswagen() {
@@ -37,7 +38,13 @@ public class Volkswagen extends Module {
     }
 
     private String getServerIP() {
-        return mc.getCurrentServerData().serverIP;
+        ServerData serverData = mc.getCurrentServerData();
+
+        if (serverData == null) {
+            return null;
+        }
+
+        return serverData.serverIP;
     }
 
     @Override
