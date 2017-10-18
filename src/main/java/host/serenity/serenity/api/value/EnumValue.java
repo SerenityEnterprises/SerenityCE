@@ -2,53 +2,75 @@ package host.serenity.serenity.api.value;
 
 import org.jetbrains.annotations.NotNull;
 
-public class EnumValue<T extends Enum> extends Value<T> {
+public final class EnumValue<T extends Enum<T>> extends Value<T> {
+    private final T[] constants;
+
     public EnumValue(String name, T value) {
         super(name, value);
+        this.constants = extractConstantsFromEnumValue(value);
+    }
+
+    private T[] extractConstantsFromEnumValue(T value) {
+        return value.getDeclaringClass().getEnumConstants();
     }
 
     public String getFixedValue() {
-        return this.getValue().toString();
+        return getValue().toString();
     }
 
-    @SuppressWarnings("unchecked")
     public T[] getConstants() {
-        return (T[]) getValue().getClass().getEnumConstants();
+        return constants;
     }
-
 
     public void increment() {
-        Enum[] array;
-        for (int length = (array = getValue().getClass().getEnumConstants()).length, i = 0; i < length; i++) {
-            if (array[i].toString().equalsIgnoreCase(getFixedValue())) {
-                i++;
-                if (i > array.length - 1) {
-                    i = 0;
-                }
-                setValueFromString(array[i].toString());
+        T currentValue = getValue();
+
+        for (T constant : constants) {
+            if (constant != currentValue) {
+                continue;
             }
+
+            T newValue;
+
+            int ordinal = constant.ordinal();
+            if (ordinal == constants.length - 1) {
+                newValue = constants[0];
+            } else {
+                newValue = constants[ordinal + 1];
+            }
+
+            setValue(newValue);
+            return;
         }
     }
 
     public void decrement() {
-        Enum[] array;
-        for (int length = (array = getValue().getClass().getEnumConstants()).length, i = 0; i < length; i++) {
-            if (array[i].toString().equalsIgnoreCase(getFixedValue())) {
-                i--;
-                if (i < 0) {
-                    i =  array.length - 1;
-                }
-                setValueFromString(array[i].toString());
+        T currentValue = getValue();
+
+        for (T constant : constants) {
+            if (constant != currentValue) {
+                continue;
             }
+
+            T newValue;
+
+            int ordinal = constant.ordinal();
+            if (ordinal == 0) {
+                newValue = constants[constants.length - 1];
+            } else {
+                newValue = constants[ordinal - 1];
+            }
+
+            setValue(newValue);
+            return;
         }
     }
 
     @Override
     public void setValueFromString(@NotNull String string) {
-        Enum[] array;
-        for (int length = (array = getValue().getClass().getEnumConstants()).length, i = 0; i < length; i++) {
-            if (array[i].toString().equalsIgnoreCase(string)) {
-                this.setValue((T) array[i]);
+        for (T constant : constants) {
+            if (constant.name().equalsIgnoreCase(string)) {
+                setValue(constant);
             }
         }
     }
