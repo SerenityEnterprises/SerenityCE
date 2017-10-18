@@ -16,7 +16,13 @@ public class Volkswagen extends Module {
         listeners.add(new Listener<BlockBB>() {
             @Override
             public void call(BlockBB event) {
-                if (getServerIP().toLowerCase().contains("ihaq.ca")) {
+                String serverIP = getServerIP();
+
+                if (serverIP == null) {
+                    return;
+                }
+
+                if (serverIP.toLowerCase().contains("ihaq.ca")) {
                     if (new CuboidRegion(new Vec3(835, 5, 154), new Vec3(825, 5, 128)).contains(new Vec3(event.getX(), event.getY(), event.getZ()))) {
                         if (event.getBlock() instanceof BlockCarpet) {
                             event.setBoundingBox(null);
